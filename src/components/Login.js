@@ -1,6 +1,11 @@
+import { getAuth, sendEmailVerification } from 'firebase/auth';
 import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContexts } from '../context/AuthContext';
+import app from '../firebase/firebase.config'
+
+const auth = getAuth(app);
+
 
 const Login = () => {
 	const {signIn, loginError, signInWithGoogle, setLoginError} = useContext(AuthContexts);
@@ -28,6 +33,11 @@ const Login = () => {
 			signInWithGoogle()
 			.then((result) => {
                 const user = result.user;
+				sendEmailVerification(auth.currentUser)
+                .then(() => {
+                    // Email verification sent!
+                    alert('A Varification Email Sent to your mail. Please varify')
+                });  
 				navigate(from, { replace: true })
                 console.log(user);
                 // ...

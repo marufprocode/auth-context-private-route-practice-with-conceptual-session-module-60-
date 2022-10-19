@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from "firebase/auth";
 import app from '../firebase/firebase.config'
 
 const auth = getAuth(app);
@@ -33,7 +33,12 @@ const AuthContext = ({children}) => {
                   }).catch((error) => {
                     // An error occurred
                     console.error('error', error);
-                  });               
+                  });             
+                sendEmailVerification(auth.currentUser)
+                .then(() => {
+                    // Email verification sent!
+                    alert('A Varification Email Sent to your mail. Please varify')
+                });                  
             })
             .catch((error) => {
                 setSignUpError(error.code);
@@ -49,7 +54,7 @@ const AuthContext = ({children}) => {
     }
 
     const signInWithGoogle = () => {
-        setLoading(true);
+        setLoading(true); 
         return signInWithPopup(auth, googleProvider)
     }
 
