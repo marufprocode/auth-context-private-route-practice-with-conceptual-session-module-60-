@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { SiAuthy } from 'react-icons/si';
+import { AuthContexts } from "../context/AuthContext";
 
 const Navbar = () => {
+  const {user, logOut} = useContext(AuthContexts);
 
   return (
     <div>
@@ -63,28 +65,49 @@ const Navbar = () => {
             </li>
           </ul>
           <div className="items-center flex-shrink-0 hidden lg:flex ">
-            <NavLink to='/login' className="self-center px-8 py-3 rounded">
-            {({ isActive }) => (
-              <span
-                className={
-                  `${isActive ? 'dark:bg-violet-400 dark:text-gray-900 px-8 py-3 font-semibold rounded' : undefined}`
-                }
-              >
-                Sign In
-              </span>
-              )}
-            </NavLink>
-            <NavLink to ='/register' className="self-center px-8 py-3 rounded">
-            {({ isActive }) => (
-              <span
-                className={
-                  `${isActive ? 'dark:bg-violet-400 dark:text-gray-900 px-8 py-3 font-semibold rounded' : undefined}`
-                }
-              >
-                Sign Up
-              </span>
-              )}
-            </NavLink>
+            {
+              user? 
+              <p>Welcome: {user.displayName}</p> :
+              <NavLink to='/login' className="self-center px-8 py-3 rounded">
+              {({ isActive }) => (
+                <span
+                  className={
+                    `${isActive ? 'dark:bg-violet-400 dark:text-gray-900 px-8 py-3 font-semibold rounded' : undefined}`
+                  }
+                >
+                  Sign In
+                </span>
+                )}
+              </NavLink>
+            }
+
+            {
+              user?
+              <NavLink to ='/login' className="self-center px-8 py-3 rounded" onClick={logOut}>
+              {({ isActive }) => (
+                <span
+                  className={
+                    `${isActive ? 'dark:bg-violet-400 dark:text-gray-900 px-8 py-3 font-semibold rounded' : undefined}`
+                  }
+                >
+                  Sign Out
+                </span>
+                )}
+              </NavLink>
+              :
+              <NavLink to ='/register' className="self-center px-8 py-3 rounded">
+              {({ isActive }) => (
+                <span
+                  className={
+                    `${isActive ? 'dark:bg-violet-400 dark:text-gray-900 px-8 py-3 font-semibold rounded' : undefined}`
+                  }
+                >
+                  Sign Up
+                </span>
+                )}
+              </NavLink>
+
+            }
           </div>
           <button className="p-4 lg:hidden">
             <svg

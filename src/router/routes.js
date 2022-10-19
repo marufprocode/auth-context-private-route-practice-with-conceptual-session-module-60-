@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "../components/Home";
 import Login from "../components/Login";
 import Main from "../components/Main";
+import PrivateRoute from "../components/PrivateRoute";
 import Profile from "../components/Profile";
 import Register from "../components/Register";
 import Wallet from "../components/Wallet";
@@ -21,11 +22,11 @@ const routes = createBrowserRouter([
             },
             {
                 path: '/profile',
-                element: <Profile/>,
+                element: <PrivateRoute><Profile/></PrivateRoute>,
             },
             {
                 path: '/wallet',
-                element: <Wallet/>,
+                element: <PrivateRoute><Wallet/></PrivateRoute>,
             },
             {
                 path: '/login',

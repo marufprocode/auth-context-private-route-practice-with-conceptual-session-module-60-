@@ -1,6 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContexts } from "../context/AuthContext";
 
 const Register = () => {
+  const {SignUp, setSignUpError, signUpError, signUpStatus, setSignUpStatus} = useContext(AuthContexts);
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const confirmpass = e.target.confirmpass.value;
+    if (password !== confirmpass){
+      setSignUpError('Password Does Not Match Try Again');
+      setSignUpStatus(false);
+      return;
+    }
+    console.log(name, email, password);
+    SignUp(email, password, name);
+    e.target.reset();
+  }
   return (
     <div className="flex justify-center py-10 bg-cyan-900">
       <div className="flex flex-col max-w-lg p-6 rounded-md sm:p-10 dark:bg-gray-900 dark:text-gray-100 w-1/2">
@@ -13,6 +30,7 @@ const Register = () => {
         <form
           action=""
           className="space-y-12 ng-untouched ng-pristine ng-valid"
+          onSubmit={handleSignUp}
         >
           <div className="space-y-4">
             <div>
@@ -63,11 +81,13 @@ const Register = () => {
                 className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
               />
             </div>
+              {signUpStatus && <p className="text-green-500">User Created Succesfully</p>}
+              {signUpError && <p className="text-red-500">Error: {signUpError}</p>}
           </div>
           <div className="space-y-2">
             <div>
               <button
-                type="button"
+                type="submit"
                 className="w-full px-8 py-3 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900 hover:dark:bg-violet-500 transition-all"
               >
                 Sign Up

@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContexts } from "../context/AuthContext";
 
 const Profile = () => {
+  const {user} = useContext(AuthContexts);
+
   return (
     <div className="flex justify-center py-10 bg-cyan-900 min-h-screen">
       <div className="max-w-md p-8 sm:flex sm:space-x-6 dark:bg-gray-900 dark:text-gray-100 h-fit">
         <div className="flex-shrink-0 w-full mb-6 h-44 sm:h-32 sm:w-32 sm:mb-0">
           <img
-            src="https://source.unsplash.com/100x100/?portrait?1"
-            alt=""
+            src={user?.photoURL? user.photoURL: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnN8ZW58MHx8MHx8&w=1000&q=80"}
+            alt="userImage"
             className="object-cover object-center w-full h-full rounded dark:bg-gray-500"
           />
         </div>
         <div className="flex flex-col space-y-4">
           <div>
-            <h2 className="text-2xl font-semibold">Leroy Jenkins</h2>
+            <h2 className="text-2xl font-semibold">{user?.displayName}</h2>
             <span className="text-sm dark:text-gray-400">General manager</span>
           </div>
           <div className="space-y-1">
@@ -30,7 +33,7 @@ const Profile = () => {
                 ></path>
               </svg>
               <span className="dark:text-gray-400">
-                leroy.jenkins@company.com
+                {user?.email}
               </span>
             </span>
             <span className="flex items-center space-x-2">
@@ -45,7 +48,7 @@ const Profile = () => {
                   d="M449.366,89.648l-.685-.428L362.088,46.559,268.625,171.176l43,57.337a88.529,88.529,0,0,1-83.115,83.114l-57.336-43L46.558,362.088l42.306,85.869.356.725.429.684a25.085,25.085,0,0,0,21.393,11.857h22.344A327.836,327.836,0,0,0,461.222,133.386V111.041A25.084,25.084,0,0,0,449.366,89.648Zm-20.144,43.738c0,163.125-132.712,295.837-295.836,295.837h-18.08L87,371.76l84.18-63.135,46.867,35.149h5.333a120.535,120.535,0,0,0,120.4-120.4v-5.333l-35.149-46.866L371.759,87l57.463,28.311Z"
                 ></path>
               </svg>
-              <span className="dark:text-gray-400">+25 381 77 983</span>
+              <span className="dark:text-gray-400">{user?.phoneNumber? user.phoneNumber: '+00000000011'}</span>
             </span>
           </div>
         </div>
