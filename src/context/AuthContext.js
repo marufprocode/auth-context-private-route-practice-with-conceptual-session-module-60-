@@ -45,35 +45,12 @@ const AuthContext = ({children}) => {
 
     const signIn = (email, password) => {
         setLoading(true);
-        return (
-            signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                setLoginError(null);
-                console.log('User Signed In Succesfully',user);
-            })
-            .catch((error) => {
-                setLoginError(error.code);
-                console.error('error', error);
-            })
-        )
-
+        return signInWithEmailAndPassword(auth, email, password)
     }
 
     const signInWithGoogle = () => {
         setLoading(true);
-        return (
-            signInWithPopup(auth, googleProvider)
-            .then((result) => {
-                const user = result.user;
-                console.log(user);
-                // ...
-            }).catch((error) => {
-                // Handle Errors here.
-                console.error('error', error);
-            })
-        )
+        return signInWithPopup(auth, googleProvider)
     }
 
     const logOut = () => {
@@ -97,7 +74,7 @@ const AuthContext = ({children}) => {
         return ()=> unSubscribe();
     }, [])
 
-    const authInfo = {SignUp, user, signUpError, setSignUpError, signUpStatus, setSignUpStatus, signIn, logOut, loginError, signInWithGoogle, loading}
+    const authInfo = {SignUp, user, signUpError, setSignUpError, signUpStatus, setSignUpStatus, signIn, logOut, loginError, signInWithGoogle, loading, setLoginError}
     return (
         <AuthContexts.Provider value={authInfo}>
             {children}

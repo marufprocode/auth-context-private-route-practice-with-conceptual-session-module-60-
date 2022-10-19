@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContexts } from '../context/AuthContext';
 
 const Login = () => {
-	const {signIn, loginError, signInWithGoogle} = useContext(AuthContexts);
+	const {signIn, loginError, signInWithGoogle, setLoginError} = useContext(AuthContexts);
 	const navigate = useNavigate();
 	const location = useLocation();
 	let from = location.state?.from?.pathname || "/";
@@ -11,12 +11,30 @@ const Login = () => {
 		e.preventDefault();
 		const email = e.target.email.value;
 		const password = e.target.password.value;
-		signIn(email, password);
-		navigate(from, { replace: true });
+		signIn(email, password)
+		.then((userCredential) => {
+			// Signed in 
+			const user = userCredential.user;
+			setLoginError(null);
+			navigate(from, { replace: true });
+			console.log('User Signed In Succesfully', user);
+		})
+		.catch((error) => {
+			setLoginError(error.code);
+			console.error('error', error);
+		})
 	}
 	const handlesignInWithGoogle = () => {
-			signInWithGoogle();
-			navigate(from, { replace: true })
+			signInWithGoogle()
+			.then((result) => {
+                const user = result.user;
+				navigate(from, { replace: true })
+                console.log(user);
+                // ...
+            }).catch((error) => {
+                // Handle Errors here.
+                console.error('error', error);
+            })
 	}
     return (
         <div className='flex justify-center py-5 bg-cyan-900'>
